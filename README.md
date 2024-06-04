@@ -3,7 +3,7 @@
 ![iOS](https://img.shields.io/badge/iOS-gray?logo=apple&logoColor=white)
 ![Desktop](https://img.shields.io/badge/Desktop-0078C0)
 ![WebAssembly](https://img.shields.io/badge/WebAssembly-654FF0?logo=webassembly&logoColor=white)
-[![Maven Central](https://img.shields.io/badge/MavenCentral-1.0.0-064F8C?labelColor=white)](https://central.sonatype.com/artifact/com.akexorcist.kotlin.multiplatform/dayandnight)
+[![Maven Central](https://img.shields.io/badge/MavenCentral-1.0.1-064F8C?labelColor=white)](https://central.sonatype.com/artifact/com.akexorcist.kotlin.multiplatform/dayandnight)
 ![Apache 2.0](https://img.shields.io/badge/License-Apache%202-D22128?logo=apache&labelColor=white&logoColor=D22128)
 
 # Day & Night Switch
@@ -21,7 +21,7 @@ Realistic and fancy switch that is inspired by a popular meme about Designer vs.
 
 ## Usage
 ```kotlin
-val version = "1.0.0"
+val version = "1.0.1"
 
 // Common
 implementation("com.akexorcist.kotlin.multiplatform:dayandnight:$version")
