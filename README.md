@@ -11,6 +11,8 @@ Realistic and fancy switch that is inspired by a popular meme about Designer vs.
 
 ![Preview](./public/preview.gif)
 
+See an example on [GitHub Pages](https://akexorcist.github.io/day-and-night-switch)
+
 ## Highlight
 * No image. All of UI components are written by Compose Multiplatform!
 * Realistic light and shadow
