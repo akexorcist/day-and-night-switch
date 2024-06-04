@@ -1,22 +1,31 @@
-import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinComposePlugin)
-    id("com.vanniktech.maven.publish") version "0.28.0"
 }
-
-group = "com.akexorcist.kotlin.multiplatform"
-version = "1.0.1"
 
 kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "library"
+        moduleName = "composeApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(project.projectDir.path)
+                    }
+                }
+            }
+        }
+        binaries.executable()
     }
 
     androidTarget {
@@ -33,9 +42,9 @@ kotlin {
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "dayAndNight"
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
             isStatic = true
         }
     }
@@ -55,16 +64,17 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(project(":library"))
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.compose.desktop.tooling.preview)
+            implementation("org.jetbrains.compose.ui:ui-tooling-preview-desktop:1.6.10")
         }
     }
 }
 
 android {
-    namespace = "com.akexorcist.kotlin.multiplatform.dayandnight"
+    namespace = "com.akexorcist.kotlin.multiplatform.dayandnight.example"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -72,8 +82,11 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
+        applicationId = "com.akexorcist.kotlin.multiplatform.dayandnight.example"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
+        versionCode = 1
+        versionName = "1.0"
     }
     packaging {
         resources {
@@ -97,35 +110,14 @@ android {
     }
 }
 
-mavenPublishing {
-    coordinates("$group", "dayandnight", "$version")
+compose.desktop {
+    application {
+        mainClass = "com.akexorcist.kotlin.multiplatform.dayandnight.MainKt"
 
-    pom {
-        name.set("Day & Night Switch")
-        description.set("Day & Night Switch with Compose Multiplatform")
-        inceptionYear.set("2024")
-        url.set("https://github.com/akexorcist/day-and-night-switch")
-        licenses {
-            license {
-                name.set("The Apache License, Version 2.0")
-                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-            }
-        }
-        developers {
-            developer {
-                id.set("akexorcist")
-                name.set("Akexorcist")
-                url.set("https://github.com/akexorcist/")
-            }
-        }
-        scm {
-            url.set("https://github.com/akexorcist/day-and-night-switch/")
-            connection.set("scm:git:git://github.com/akexorcist/day-and-night-switch.git")
-            developerConnection.set("scm:git:ssh://git@github.com/akexorcist/day-and-night-switch.git")
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.akexorcist.kotlin.multiplatform.dayandnight"
+            packageVersion = "1.0.0"
         }
     }
-
-    publishToMavenCentral(SonatypeHost.DEFAULT)
-    signAllPublications()
 }

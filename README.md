@@ -1,22 +1,80 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop.
+![Kotlin Multiplatform](https://img.shields.io/badge/Kotlin-Multiplatform-6C3FD1.svg?style=flat&logo=kotlin&labelColor=white)
+![Android](https://img.shields.io/badge/Android-34A853?logo=android&logoColor=white)
+![iOS](https://img.shields.io/badge/iOS-gray?logo=apple&logoColor=white)
+![Desktop](https://img.shields.io/badge/Desktop-0078C0)
+![WebAssembly](https://img.shields.io/badge/WebAssembly-654FF0?logo=webassembly&logoColor=white)
+[![Maven Central](https://img.shields.io/badge/MavenCentral-1.0.0-064F8C?labelColor=white)](https://central.sonatype.com/artifact/com.akexorcist.kotlin.multiplatform/dayandnight)
+![Apache 2.0](https://img.shields.io/badge/License-Apache%202-D22128?logo=apache&labelColor=white&logoColor=D22128)
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+# Day & Night Switch
+Realistic and fancy switch that is inspired by a popular meme about Designer vs. Developer
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+![Preview](./public/preview.gif)
 
+## Highlight
+* No image. All of UI components are written by Compose Multiplatform!
+* Realistic light and shadow
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+## Powered by
+* [Kotlin Multiplatform](https://www.jetbrains.com/kotlin-multiplatform/)
+* [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
 
-**Note:** Compose/Web is Experimental and may be changed at any time. Use it only for evaluation purposes.
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
+## Usage
+```kotlin
+val version = "1.0.0"
 
-You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
+// Common
+implementation("com.akexorcist.kotlin.multiplatform:dayandnight:$version")
+
+// Android
+implementation("com.akexorcist.kotlin.multiplatform:dayandnight-android:$version")
+
+// iOS
+implementation("com.akexorcist.kotlin.multiplatform:dayandnight-iosx64:$version")
+implementation("com.akexorcist.kotlin.multiplatform:dayandnight-iosarm64:$version")
+implementation("com.akexorcist.kotlin.multiplatform:dayandnight-iossimulatorarm64:$version")
+
+// Desktop
+implementation("com.akexorcist.kotlin.multiplatform:dayandnight-desktop:$version")
+
+// WebAssembly
+implementation("com.akexorcist.kotlin.multiplatform:dayandnight-wasm-js:$version")
+```
+
+```kotlin
+var selected by remember { mutableStateOf(true) }
+
+// Switch Only
+DayAndNightSwitch(
+  modifier = Modifier,
+  selected = selected,
+  onSwitchToggle = { selected = !selected },
+)
+
+// With Container
+DayAndNightContainer(
+    modifier = Modifier.fillMaxSize(),
+    selected = selected,
+) {
+    DayAndNightSwitch(
+        modifier = Modifier.scale(2f),
+        selected = selected,
+        onSwitchToggle = { selected = !selected },
+    )
+}
+```
+
+## Run example
+* **Android**: Run at example module with Android App configuration
+* **Desktop**: Run `gradlew desktopRun -DmainClass=MainKt --quiet`
+* **WebAssembly**: Run `gradlew wasmJsBrowserDevelopmentRun`
+* **iOS**:
+  * Run `gradlew build commonizeNativeDistribution`
+  * Open `./iosApp/iosApp.xcodeproj` with Xcode
+  * Run the app on Xcode
+
+## Design reference
+* https://designer-vs-developer-meme-with-sound.webflow.io/
+
+## License
+[Apache License Version 2.0](./LICENSE)

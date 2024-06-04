@@ -1,4 +1,6 @@
-rootProject.name = "sun-and-moon-switch"
+@file:Suppress("UnstableApiUsage")
+
+rootProject.name = "day-and-night-switch"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -28,5 +30,5 @@ dependencyResolutionManagement {
     }
 }
 
-include(":composeApp")
-//include(":library")
+include(":example")
+include(":library")
