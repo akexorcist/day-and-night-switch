@@ -11,7 +11,7 @@ Realistic and fancy switch that is inspired by a popular meme about Designer vs.
 
 ![Preview](./public/preview.gif)
 
-See an example on [GitHub Pages](https://akexorcist.github.io/day-and-night-switch)
+See an example on [GitHub Pages](https://akexorcist.github.io/day-and-night-switch) (Works with Chrome, Chromium-based, and Firefox)
 
 ## Highlight
 * No image. All of UI components are written by Compose Multiplatform!
@@ -74,6 +74,21 @@ DayAndNightContainer(
   * Run `gradlew build commonizeNativeDistribution`
   * Open `./iosApp/iosApp.xcodeproj` with Xcode
   * Run the app on Xcode
+
+## Components
+If you're curious about how I built this library
+
+### SunAndMoonThumbContainer
+![Component 1](./public/component_01.png)
+![Component 2](./public/component_02.png)
+![Component 3](./public/component_03.png)
+
+### DayAndNightSwitch
+![Component 4](./public/component_04.png)
+![Component 5](./public/component_05.png)
+
+### DayAndNightContainer
+![Component 6](./public/component_06.png)
 
 ## Design reference
 * https://designer-vs-developer-meme-with-sound.webflow.io/
